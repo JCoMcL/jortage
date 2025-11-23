@@ -26,7 +26,7 @@ RESTRICT="strip"
 RDEPEND="
 	app-crypt/mit-krb5
 	dev-libs/glib:2
-	media-libs/gst-plugins-base[opengl]
+	media-libs/gst-plugins-base
 	x11-themes/hicolor-icon-theme
 	sys-apps/dbus
 	sys-libs/zlib
