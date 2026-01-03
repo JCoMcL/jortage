@@ -34,6 +34,7 @@ RDEPEND="${DEPEND}
 	gui-libs/libpanel
 	gui-libs/gtksourceview
 	dev-libs/libcyaml
+	dev-libs/libbacktrace
 	media-libs/libsamplerate
 	media-libs/libsndfile
 	media-libs/lilv
