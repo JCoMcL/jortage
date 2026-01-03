@@ -11,7 +11,7 @@ fi
 vs_command="/usr/bin/vintagestory-server-${PV}"
 vs_path="/opt/vintagestory-server-${PV}"
 vs_path_data="/var/lib/vintagestory-server/${PV}"
-vs_path_instance="${vs_path_data}/${instance}"
+vs_path_instance="$${vs_path_data}/$${instance}"
 directory="${vs_path_instance}/"
 dtach_tmpfile="$(mktemp -u)"
 name="Vintage Story ${PV} Server (${instance})"
@@ -31,7 +31,7 @@ depend() {
 }
 
 start_pre() {
-	checkpath -d -o "${command_user}:${command_group}" -q "${vs_path_data}" "${vs_path_instance}"
+	checkpath -d -o "$${command_user}:$${command_group}" -q "$${vs_path_data}" "$${vs_path_instance}"
 }
 
 attach() {
