@@ -27,10 +27,11 @@ DEPEND="
 "
 RDEPEND="${DEPEND}
 	media-sound/carla
-	media-libs/cairo
+	x11-libs/cairo
 	media-libs/fontconfig
 	media-libs/freetype
-	media-libs/gtk+:3
+	gui-libs/gtk
+	dev-libs/libyaml
 	media-libs/libsamplerate
 	media-libs/libsndfile
 	media-libs/lilv

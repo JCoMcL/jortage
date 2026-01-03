@@ -31,7 +31,7 @@ RDEPEND="
 		x11-libs/libXcursor
 		x11-libs/libXext
 		x11-libs/libXrandr
-		$(python_gen_cond_dep 'dev-python/PyQt6[gui,svg,widgets,${PYTHON_USEDEP}]')
+		$(python_gen_cond_dep 'dev-python/pyqt6[gui,svg,widgets,${PYTHON_USEDEP}]')
 	)
 	fluidsynth? ( media-sound/fluidsynth:= )
 	pulseaudio? ( media-libs/libpulse )
