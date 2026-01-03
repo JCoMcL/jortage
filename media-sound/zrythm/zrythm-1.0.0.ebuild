@@ -60,33 +60,10 @@ BDEPEND="
 S="${WORKDIR}/${P}"
 
 src_configure() {
-	export LDFLAGS="${LDFLAGS} -Wl,-Bdynamic -fuse-ld=bfd"
-	export CFLAGS="${CFLAGS} -fuse-ld=bfd"
-	export CXXFLAGS="${CXXFLAGS} -fuse-ld=bfd"
-	export LD=ld.bfd
-	local mymesonargs=(
-		-Dbuildtype=$(usex debug debug release)
-
-		# Allow upstream wrap (important)
-		-Dzrythm_use_system_deps=false
-
-		# Install paths
-		--prefix=/usr
+	local emesonargs=(
+		-Dtests=false
+		-Ddebug=$(usex debug true false)
 	)
 
 	meson_src_configure
-}
-
-src_compile() {
-	meson_src_compile
-}
-
-src_install() {
-	meson_src_install
-
-	# Install upstream custom license file
-	if [[ -f "${S}/LICENSES/LicenseRef-ZrythmLicense.txt" ]]; then
-		insinto /usr/share/licenses/${PN}
-		newins LICENSES/LicenseRef-ZrythmLicense.txt LICENSE
-	fi
 }
