@@ -35,6 +35,8 @@ RDEPEND="${DEPEND}
 	gui-libs/gtksourceview
 	dev-libs/libcyaml
 	dev-libs/libbacktrace
+	dev-libs/libsass
+	dev-lang/sassc
 	media-libs/libsamplerate
 	media-libs/libsndfile
 	media-libs/lilv
@@ -58,6 +60,10 @@ BDEPEND="
 S="${WORKDIR}/${P}"
 
 src_configure() {
+	export LDFLAGS="${LDFLAGS} -Wl,-Bdynamic -fuse-ld=bfd"
+	export CFLAGS="${CFLAGS} -fuse-ld=bfd"
+	export CXXFLAGS="${CXXFLAGS} -fuse-ld=bfd"
+	export LD=ld.bfd
 	local mymesonargs=(
 		-Dbuildtype=$(usex debug debug release)
 
