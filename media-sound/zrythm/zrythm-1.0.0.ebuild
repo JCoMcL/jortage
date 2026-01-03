@@ -31,7 +31,7 @@ RDEPEND="${DEPEND}
 	media-libs/fontconfig
 	media-libs/freetype
 	gui-libs/gtk
-	dev-libs/libyaml
+	dev-libs/libcyaml
 	media-libs/libsamplerate
 	media-libs/libsndfile
 	media-libs/lilv
