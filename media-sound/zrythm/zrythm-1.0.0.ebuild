@@ -31,6 +31,8 @@ RDEPEND="${DEPEND}
 	media-libs/fontconfig
 	media-libs/freetype
 	gui-libs/gtk
+	gui-libs/libpanel
+	gui-libs/gtksourceview
 	dev-libs/libcyaml
 	media-libs/libsamplerate
 	media-libs/libsndfile
@@ -38,6 +40,7 @@ RDEPEND="${DEPEND}
 	media-libs/lv2
 	media-libs/rubberband
 	media-libs/soxr
+	media-sound/sox
 	media-libs/suil
 	x11-libs/libX11
 	x11-libs/libXcursor
