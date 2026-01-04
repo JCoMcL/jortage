@@ -13,3 +13,9 @@ S="${WORKDIR}/libbacktrace-${PHASH}"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64"
+IUSE="pic"
+
+src_configure() {
+	use pic && export CFLAGS="${CFLAGS} -fPIC"
+	./configure --prefix=/usr --enable-shared --enable-static
+}

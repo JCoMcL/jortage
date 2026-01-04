@@ -34,7 +34,7 @@ RDEPEND="${DEPEND}
 	gui-libs/libpanel
 	gui-libs/gtksourceview
 	dev-libs/libcyaml
-	dev-libs/libbacktrace
+	dev-libs/libbacktrace[pic]
 	dev-libs/libsass
 	dev-lang/sassc
 	media-libs/libsamplerate
@@ -60,6 +60,7 @@ BDEPEND="
 S="${WORKDIR}/${P}"
 
 src_configure() {
+	export LDFLAGS="-Wl,-O1 -Wl,--as-needed"
 	local emesonargs=(
 		-Dtests=false
 		-Ddebug=$(usex debug true false)
