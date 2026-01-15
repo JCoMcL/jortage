@@ -1,0 +1,21 @@
+diff --git a/Makefile b/Makefile
+index 091d3f1b..be0e1fd6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,8 +1,6 @@
+ .POSIX:
+ .SUFFIXES:
+ 
+-CXX = c++
+-
+ debug = no
+ static = no
+ gzip_man = yes
+@@ -19,7 +17,6 @@ CPPFLAGS-debug-yes = -DKAK_DEBUG
+ CXXFLAGS-debug-yes = -O0 -g3
+ tag-debug-yes = .debug
+ 
+-CXXFLAGS-debug-no = -O3 -g3
+ tag-debug-no = .opt
+ 
+ CXXFLAGS-sanitize-address = -fsanitize=address
