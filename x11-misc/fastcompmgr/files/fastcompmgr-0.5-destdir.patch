@@ -1,0 +1,16 @@
+--- a/Makefile
++++ b/Makefile
+@@ -14,9 +14,10 @@
+ 	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBS)
+ 
+ install: fastcompmgr
+-	@cp -t ${PREFIX}/bin fastcompmgr
+-	@[ -d "${MANDIR}" ] \
+-	  && cp -t "${MANDIR}" fastcompmgr.1
++	mkdir -p $(DESTDIR)$(PREFIX)/bin
++	cp fastcompmgr $(DESTDIR)$(PREFIX)/bin
++	mkdir -p $(DESTDIR)$(MANDIR)
++	cp fastcompmgr.1 $(DESTDIR)$(MANDIR)
+ 
+ uninstall:
+ 	@rm -f ${PREFIX}/fastcompmgr
