@@ -27,7 +27,7 @@ BDEPEND="
 	dev-build/make
 "
 
-#PATCHES=(${FILESDIR}/${P}-add-destdir.patch)
+PATCHES=(${FILESDIR}/${P}-destdir.patch)
 
 src_compile() {
 	emake
