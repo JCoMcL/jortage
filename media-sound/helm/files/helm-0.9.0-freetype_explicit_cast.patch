@@ -1,0 +1,21 @@
+commit ca64359c3046c6c9c48172144443d161f81414e7
+Author: jcomcl <j@jcom.cl>
+Date:   Thu Jan 29 22:54:38 2026 +0000
+
+    fix font type error
+
+diff --git a/JUCE/modules/juce_graphics/native/juce_freetype_Fonts.cpp b/JUCE/modules/juce_graphics/native/juce_freetype_Fonts.cpp
+index 367d3b26..27be07fc 100644
+--- a/JUCE/modules/juce_graphics/native/juce_freetype_Fonts.cpp
++++ b/JUCE/modules/juce_graphics/native/juce_freetype_Fonts.cpp
+@@ -353,8 +353,8 @@ private:
+     bool getGlyphShape (Path& destShape, const FT_Outline& outline, const float scaleX)
+     {
+         const float scaleY = -scaleX;
+-        const short* const contours = outline.contours;
+-        const char* const tags = outline.tags;
++        const short* const contours = (const short*) outline.contours;
++        const char* const tags = (const char*) outline.tags;
+         const FT_Vector* const points = outline.points;
+ 
+         for (int c = 0; c < outline.n_contours; ++c)
