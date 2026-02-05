@@ -1,0 +1,150 @@
+diff --git a/pirate/print.py b/pirate/print.py
+index adc3614..2522ae7 100644
+--- a/pirate/print.py
++++ b/pirate/print.py
+@@ -10,11 +10,9 @@ import pirate.data
+ import pirate.torrent
+
+ import colorama
+-import veryprettytable as pretty
+
+ from io import BytesIO
+
+-
+ class Printer:
+     def __init__(self, enable_color):
+         self.enable_color = enable_color
+@@ -41,60 +39,68 @@ class Printer:
+
+     # TODO: extract the name from the search results
+     #       instead of from the magnet link when possible
+-    def search_results(self, results, local=None):
++    def _draw_table(self, headers, rows, alignments):
+         columns = shutil.get_terminal_size((80, 20)).columns
++        col_widths = {h: len(h) for h in headers}
++
++        # Calculate max width for each column
++        for row in rows:
++            for header, cell in zip(headers, row):
++                if len(str(cell)) > col_widths[header]:
++                    col_widths[header] = len(str(cell))
++
++        # Print header
++        header_line_parts = []
++        for h in headers:
++            if h == 'SIZE':
++                header_line_parts.append(h.upper().rjust(col_widths[h]))
++            else:
++                header_line_parts.append(h.upper().ljust(col_widths[h]))
++        header_line = "  ".join(header_line_parts)
++        self.print(header_line)
++
++        # Print rows
+         even = True
++        for row in rows:
++            row_cells = []
++            for header, cell in zip(headers, row):
++                align = alignments.get(header, 'l')
++                cell_str = str(cell)
++
++                if header == 'NAME':
++                    cell_str = cell_str[:col_widths[header]]
++
++                if align == 'r':
++                    row_cells.append(cell_str.rjust(col_widths[header]))
++                else:
++                    row_cells.append(cell_str.ljust(col_widths[header]))
++
++            row_line = "  ".join(row_cells)
++            color = 'zebra_0' if even else 'zebra_1'
++            self.print(row_line, color=color)
++            even = not even
+
++    def search_results(self, results, local=None):
++        rows = []
+         if local:
+-            table = pretty.VeryPrettyTable(['LINK', 'DATE', 'SIZE', 'NAME'])
+-
+-            table.align['SIZE'] = 'r'
+-            table.align['NAME'] = 'l'
++            headers = ['LINK', 'DATE', 'SIZE', 'NAME']
++            alignments = {'SIZE': 'r', 'NAME': 'l'}
++            for i, res in enumerate(results):
++                rows.append([i, res['date'], res['size'], res['name']])
+         else:
+-            table = pretty.VeryPrettyTable(['LINK', 'SEED', 'LEECH',
+-                                            'RATIO', 'SIZE',
+-                                            'UPLOAD', 'NAME'])
+-            table.align['NAME'] = 'l'
+-            table.align['SEED'] = 'r'
+-            table.align['LEECH'] = 'r'
+-            table.align['RATIO'] = 'r'
+-            table.align['SIZE'] = 'r'
+-            table.align['UPLOAD'] = 'l'
+-
+-        table.max_width = columns
+-        table.border = False
+-        table.padding_width = 1
+-
+-        for n, result in enumerate(results):
+-            torrent_name = result['name']
+-
+-            if local:
+-                content = [n, result['date'], result['size'],
+-                           torrent_name[:columns - 42]]
+-            else:
+-                no_seeders = int(result['seeders'])
+-                no_leechers = int(result['leechers'])
+-                size = result['size']
+-                date = result['uploaded']
+-
+-                # compute the S/L ratio (Higher is better)
++            headers = ['LINK', 'SEED', 'LEECH', 'RATIO', 'SIZE', 'UPLOAD', 'NAME']
++            alignments = {'NAME': 'l', 'SEED': 'r', 'LEECH': 'r', 'RATIO': 'r', 'SIZE': 'r', 'UPLOAD': 'l'}
++            for i, res in enumerate(results):
++                no_seeders = int(res['seeders'])
++                no_leechers = int(res['leechers'])
+                 try:
+                     ratio = no_seeders / no_leechers
+                 except ZeroDivisionError:
+                     ratio = float('inf')
++                rows.append([i, no_seeders, no_leechers, '{:.1f}'.format(ratio),
++                           res['size'], res['uploaded'], res['name']])
+
+-                content = [n, no_seeders, no_leechers,
+-                           '{:.1f}'.format(ratio),
+-                           size, date, torrent_name[:columns - 50]]
+-
+-            if even or not self.enable_color:
+-                table.add_row(content)
+-            else:
+-                table.add_row(content, fore_color='blue')
+-
+-            # Alternate between colors
+-            even = not even
+-        self.print(table)
++        self._draw_table(headers, rows, alignments)
+
+     def descriptions(self, chosen_links, results, site, timeout):
+         for link in chosen_links:
+diff --git a/setup.py b/setup.py
+index 00ae514..ceffee9 100755
+--- a/setup.py
++++ b/setup.py
+@@ -11,7 +11,7 @@ if LooseVersion(sys.version) < LooseVersion("3.4.0"):
+
+ if __name__ == '__main__':
+     setup(name='pirate-get',
+-        version=pirate.data.version,
++        version=pirate.data.version
+         description='A command line interface for The Pirate Bay',
+         url='https://github.com/vikstrous/pirate-get',
+         author='vikstrous',
+@@ -23,7 +23,6 @@ if __name__ == '__main__':
+             'console_scripts': ['pirate-get = pirate.pirate:main']
+         },
+         install_requires=['colorama>=0.3.3',
+-                          'veryprettytable>=0.8.1',
+                           'pyperclip>=1.6.2'],
+         keywords=['torrent', 'magnet', 'download', 'tpb', 'client'],
+         classifiers=[
