@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>mark.blakeney@bullet-systems.net</email>
+		<name>Mark Blakeney</name>
+	</maintainer>
+	<longdescription>
+		Program to rename, remove, and copy files and directories using your editor.
+	</longdescription>
+</pkgmetadata>

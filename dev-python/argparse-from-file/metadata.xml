@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>mark.blakeney@bullet-systems.net</email>
+		<name>Mark Blakeney</name>
+	</maintainer>
+	<longdescription>
+		Wrapper for Python's argparse to also read arguments from a file.
+	</longdescription>
+</pkgmetadata>
