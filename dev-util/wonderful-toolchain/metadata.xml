@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+    <maintainer type="person">
+        <email>j@jcom.cl</email>
+    </maintainer>
+    <longdescription lang="en">
+      Wonderful Toolchain is a development environment for various retro
+      consoles and handhelds. This package installs the bootstrap tree into
+      /opt/wonderful and uses wf-pacman to manage the toolchain contents.
+    </longdescription>
+    <upstream>
+        <bugs-to>https://github.com/WonderfulToolchain</bugs-to>
+    </upstream>
+</pkgmetadata>
