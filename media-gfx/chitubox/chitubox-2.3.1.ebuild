@@ -29,7 +29,7 @@ RDEPEND="
 	media-libs/gst-plugins-base
 	x11-themes/hicolor-icon-theme
 	sys-apps/dbus
-	sys-libs/zlib
+	sys-libs/zlib-ng
 	x11-libs/libX11
 	x11-libs/libxkbcommon[X]
 	x11-libs/xcb-util-keysyms
