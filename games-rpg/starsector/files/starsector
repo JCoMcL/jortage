@@ -1,0 +1,14 @@
+#!/bin/sh
+# Wrapper for the read-only /opt install: keep player data (saves, mods,
+# screenshots and logs) in the user's home and run the game from its own
+# directory, which the bundled launcher expects via relative paths.
+STARSECTOR_HOME="${STARSECTOR_HOME:-${XDG_DATA_HOME:-${HOME}/.local/share}/starsector}"
+export STARSECTOR_HOME
+
+mkdir -p \
+	"${STARSECTOR_HOME}/saves" \
+	"${STARSECTOR_HOME}/screenshots" \
+	"${STARSECTOR_HOME}/mods" || exit 1
+
+cd /opt/starsector || exit 1
+exec ./starsector.sh "$@"
