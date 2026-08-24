@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<upstream>
+		<remote-id type="github">BOBONA/Just-a-Sample</remote-id>
+	</upstream>
+	<longdescription lang="en">
+		Just a Sample is a modern, open-source audio sampler plugin built with
+		JUCE. It features an integrated Bungee time-stretcher for independent
+		time and pitch modulation, an optimised waveform display, a routable FX
+		chain (reverb, chorus, distortion, EQ), a waveform/wavetable mode,
+		direct sample recording and experimental auto-tuning. Built here as a
+		VST3 plugin.
+	</longdescription>
+</pkgmetadata>
