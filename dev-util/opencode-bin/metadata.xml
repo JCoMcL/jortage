@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<!-- maintainer-needed -->
+	<longdescription lang="en">
+		opencode is an AI coding agent that runs in the terminal. It provides a
+		TUI client, a headless server and a web interface, and supports a wide
+		range of model providers. This package installs the prebuilt single-file
+		executable published by upstream.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">anomalyco/opencode</remote-id>
+		<bugs-to>https://github.com/anomalyco/opencode/issues</bugs-to>
+		<changelog>https://github.com/anomalyco/opencode/releases</changelog>
+		<doc>https://opencode.ai/docs</doc>
+	</upstream>
+</pkgmetadata>
