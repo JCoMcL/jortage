@@ -1,0 +1,14 @@
+DEFINED_PHASES=install postinst
+DESCRIPTION=AI coding agent for the terminal
+EAPI=8
+HOMEPAGE=https://opencode.ai/ https://github.com/anomalyco/opencode/
+INHERIT=optfeature shell-completion
+IUSE=cpu_flags_x86_avx2
+KEYWORDS=-* ~amd64 ~arm64
+LICENSE=MIT
+RDEPEND=dev-vcs/git sys-apps/ripgrep
+RESTRICT=strip
+SLOT=0
+SRC_URI=amd64? ( cpu_flags_x86_avx2? ( elibc_glibc? ( https://registry.npmjs.org/@opencode/cli-linux-x64/-/cli-linux-x64-2.1.1.tgz ) elibc_musl? ( https://registry.npmjs.org/@opencode/cli-linux-x64-musl/-/cli-linux-x64-musl-2.1.1.tgz ) ) !cpu_flags_x86_avx2? ( elibc_glibc? ( https://registry.npmjs.org/@opencode/cli-linux-x64-baseline/-/cli-linux-x64-baseline-2.1.1.tgz ) elibc_musl? ( https://registry.npmjs.org/@opencode/cli-linux-x64-baseline-musl/-/cli-linux-x64-baseline-musl-2.1.1.tgz ) ) ) arm64? ( elibc_glibc? ( https://registry.npmjs.org/@opencode/cli-linux-arm64/-/cli-linux-arm64-2.1.1.tgz ) elibc_musl? ( https://registry.npmjs.org/@opencode/cli-linux-arm64-musl/-/cli-linux-arm64-musl-2.1.1.tgz ) )
+_eclasses_=optfeature	58cc13bdc4e9a204077e1e7c9a1d7988	toolchain-funcs	58a918e3a42d0156f010dcfd43725be5	shell-completion	42587a281b8b546975e45fad82edcb50
+_md5_=b7e86d451827eb0954df3553f9086721

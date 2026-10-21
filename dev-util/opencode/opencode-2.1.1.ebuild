@@ -6,30 +6,32 @@ EAPI=8
 inherit optfeature shell-completion
 
 MY_PN="${PN%-bin}"
-MY_URI="https://github.com/anomalyco/opencode/releases/download/v${PV}"
+MY_URI="https://registry.npmjs.org/@opencode"
 
 DESCRIPTION="AI coding agent for the terminal"
 HOMEPAGE="https://opencode.ai/
 	https://github.com/anomalyco/opencode/"
 
-# Upstream release assets are not version stamped, so rename them to avoid
-# collisions in DISTDIR between versions.
+# Since 2.0 the per-platform binaries are published as npm packages under the
+# @opencode scope instead of GitHub release assets. Their tarball names are
+# already version stamped, so they can be stored in DISTDIR as they come.
 SRC_URI="
 	amd64? (
 		cpu_flags_x86_avx2? (
-			elibc_glibc? ( ${MY_URI}/${MY_PN}-linux-x64.tar.gz -> ${P}-linux-x64.tar.gz )
-			elibc_musl? ( ${MY_URI}/${MY_PN}-linux-x64-musl.tar.gz -> ${P}-linux-x64-musl.tar.gz )
+			elibc_glibc? ( ${MY_URI}/cli-linux-x64/-/cli-linux-x64-${PV}.tgz )
+			elibc_musl? ( ${MY_URI}/cli-linux-x64-musl/-/cli-linux-x64-musl-${PV}.tgz )
 		)
 		!cpu_flags_x86_avx2? (
-			elibc_glibc? ( ${MY_URI}/${MY_PN}-linux-x64-baseline.tar.gz -> ${P}-linux-x64-baseline.tar.gz )
-			elibc_musl? ( ${MY_URI}/${MY_PN}-linux-x64-baseline-musl.tar.gz -> ${P}-linux-x64-baseline-musl.tar.gz )
+			elibc_glibc? ( ${MY_URI}/cli-linux-x64-baseline/-/cli-linux-x64-baseline-${PV}.tgz )
+			elibc_musl? ( ${MY_URI}/cli-linux-x64-baseline-musl/-/cli-linux-x64-baseline-musl-${PV}.tgz )
 		)
 	)
 	arm64? (
-		elibc_glibc? ( ${MY_URI}/${MY_PN}-linux-arm64.tar.gz -> ${P}-linux-arm64.tar.gz )
-		elibc_musl? ( ${MY_URI}/${MY_PN}-linux-arm64-musl.tar.gz -> ${P}-linux-arm64-musl.tar.gz )
+		elibc_glibc? ( ${MY_URI}/cli-linux-arm64/-/cli-linux-arm64-${PV}.tgz )
+		elibc_musl? ( ${MY_URI}/cli-linux-arm64-musl/-/cli-linux-arm64-musl-${PV}.tgz )
 	)
 "
+# The npm tarballs unpack to package/{package.json,bin/opencode}.
 S="${WORKDIR}"
 
 LICENSE="MIT"
@@ -51,7 +53,7 @@ RDEPEND="
 "
 
 src_install() {
-	dobin "${MY_PN}"
+	dobin package/bin/opencode
 
 	# The bun runtime opens the ftrace marker on startup; nothing that matters
 	# is written to it here, so let the sandbox swallow the access.
@@ -68,17 +70,20 @@ src_install() {
 		OPENCODE_DISABLE_AUTOUPDATE=1
 		OPENCODE_DISABLE_MODELS_FETCH=1
 	)
+	local oc="package/bin/opencode"
 
-	# The bundled yargs completion generator picks its flavour from ${SHELL}
-	# rather than from an argument, so ask for each one in turn. There is no
-	# fish flavour upstream.
-	env "${ocenv[@]}" SHELL=/bin/bash "./${MY_PN}" completion \
+	# Completions are static scripts printed by the global --completions flag.
+	env "${ocenv[@]}" "${oc}" --completions bash \
 		> "${T}/${MY_PN}.bash" || die "failed to generate bash completion"
 	newbashcomp "${T}/${MY_PN}.bash" "${MY_PN}"
 
-	env "${ocenv[@]}" SHELL=/bin/zsh "./${MY_PN}" completion \
+	env "${ocenv[@]}" "${oc}" --completions zsh \
 		> "${T}/_${MY_PN}" || die "failed to generate zsh completion"
 	newzshcomp "${T}/_${MY_PN}" "_${MY_PN}"
+
+	env "${ocenv[@]}" "${oc}" --completions fish \
+		> "${T}/${MY_PN}.fish" || die "failed to generate fish completion"
+	newfishcomp "${T}/${MY_PN}.fish" "${MY_PN}"
 }
 
 pkg_postinst() {
